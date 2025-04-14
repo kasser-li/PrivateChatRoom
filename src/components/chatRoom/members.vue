@@ -1,17 +1,10 @@
 <template>
-  <div class="chat-container">
-    <div class="chat-list">
-      <!-- 聊天室列表 -->
-      <chatItem
-        v-for="chatRoomInfo in chatList"
-        :chatRoomInfo="chatRoomInfo"
-        @checkIntoRoom="checkIntoRoom"
-      >
-      </chatItem>
-    </div>
-    <!-- 新增/创建聊天室 -->
-    <div class="add-chat-room">
-      <el-button type="primary" circle>+</el-button>
+  <div class="chatMembers-container">
+    <div class="member-list">
+      <div class="mermber" v-for="(userInfo, index) in members" :key="index">
+        <!-- 头像 -->
+        <UserAvatar :chatRoomInfo="userInfo" :showName="true"></UserAvatar>
+      </div>
     </div>
   </div>
 </template>
@@ -19,9 +12,18 @@
 import { ref } from 'vue'
 import router from '@/router'
 
+// 组件
+import UserAvatar from '@/components/chatList/chatItem.vue'
 import chatItem from './chatItem.vue'
 import { chatRoomList } from '@/api/chatRoom/index.ts'
 import type { chatRoomParams } from '@/api/chatRoom/types.ts'
+
+const props = defineProps({
+  members: {
+    type: Array,
+    default: () => [],
+  },
+})
 
 let chatList = ref<chatRoomParams[]>([])
 const getChatRoomList = async () => {
@@ -45,42 +47,30 @@ const checkIntoRoom = (chatRoomInfo: chatRoomParams) => {
 }
 </script>
 <style lang="less">
-.chat-container {
+.chatMembers-container {
   // position: relative;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 60px);
+  height: 100%;
   width: 100%;
-  background-color: @bgColor2;
+  background-color: @bgColor1;
   // padding: 10px;
   // padding-bottom: 50px;
   overflow-y: hidden;
 }
 
-.chat-list {
-  // 居中
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: calc(100% - 50px);
+.member-list {
+  height: 100%;
   width: 100%;
   min-width: 50px;
-  padding: 0 10px;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.add-chat-room {
-  position: sticky;
-  height: 45px;
-  left: 0;
-  right: 0;
+.mermber {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  bottom: 0px;
-  background-color: @bgColor2;
+  flex-wrap: nowrap;
 }
 </style>

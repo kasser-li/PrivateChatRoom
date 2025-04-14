@@ -1,21 +1,17 @@
-import Mock from 'mockjs';
+import Mock from 'mockjs'
+import type { MockParams } from './types.ts'
+import apiList from './api.ts'
 
-// 开发环境启用 Mock
-if (import.meta.env.MODE === 'development') {
-  Mock.setup({
-    timeout: '200-600' // 响应延迟
-  });
+Mock.setup({
+  timeout: '200-600', // 随机响应延迟‌:ml-citation{ref="6" data="citationList"}
+})
 
-  // 动态加载所有 mock 模块
-  const mockModules = import.meta.glob('./modules/*.ts');
-  
-  Object.values(mockModules).forEach(module => {
-    module().then((mod: any) => {
-      mod.default.forEach((mock: Mock.MockjsMock) => {
-        Mock.mock(...mock);
-      });
-    });
-  });
+export function mockRequest() {
+  apiList.forEach((item: MockParams) => {
+    Mock.mock(
+      new RegExp(item.url), // 支持路径参数匹配‌:ml-citation{ref="6" data="citationList"}
+      item.type,
+      item.response,
+    )
+  })
 }
-
-export default Mock;
