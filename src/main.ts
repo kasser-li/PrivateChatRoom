@@ -10,8 +10,8 @@ import ElementPlus from 'element-plus'
 import App from '@/App.vue'
 import router from './router'
 // mock
-const { mockRequest } = await import('./mocks')
-mockRequest()
+// const { mockRequest } = await import('./mocks')
+// mockRequest()
 // 数据集管理
 
 const app = createApp(App)

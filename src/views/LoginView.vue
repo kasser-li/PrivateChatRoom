@@ -1,10 +1,10 @@
 <template>
   <el-form :model="form" label-width="auto" style="max-width: 600px">
     <el-form-item label="账号/手机">
-      <el-input v-model="form.acc" />
+      <el-input v-model="form.username" />
     </el-form-item>
     <el-form-item label="密码">
-      <el-input v-model="form.pwd" />
+      <el-input v-model="form.password" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">登录</el-button>
@@ -23,8 +23,8 @@ import router from '@/router'
 import { userInfoStore } from '@/stores/userInfo.ts'
 const userStore = userInfoStore()
 const form = reactive({
-  acc: 'admin',
-  pwd: '123456',
+  username: 'admin',
+  password: '123456',
 })
 
 // const router = useRouter()
@@ -36,9 +36,10 @@ const signIn = async () => {
   let res = await userRegister(form)
   loginInto(res)
 }
-const loginInto = (userInfo: any) => {
-  console.log(userInfo);
-  if (userInfo.code === 200) {
+const loginInto = (res: any) => {
+  console.log(res)
+  if (res.code === 200 && res.success === true) {
+    const userInfo = res.data
     userStore.setUserInfo({
       token: userInfo.data.token,
       name: userInfo.data.name,

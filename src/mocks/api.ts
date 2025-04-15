@@ -27,7 +27,7 @@ export default [
   },
   // 登录
   {
-    url: '/api/user/login',
+    url: '/api/auth/login',
     type: 'post',
     response: (config: any) => {
       // const { username } = JSON.parse(config.body)
