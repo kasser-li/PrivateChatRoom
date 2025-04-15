@@ -1,12 +1,10 @@
 import { defineStore } from 'pinia'
-
+import type { UserInfo } from '../api/userInfo/userInfo'
 export const userInfoStore = defineStore('userInfo', {
   //  存储数据
   state() {
     return {
-      id: '',
-      name: 'jojo',
-      avatar: 'sss',
+      userInfo: {} as UserInfo,
       token: '',
     }
   },
